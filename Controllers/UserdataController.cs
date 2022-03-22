@@ -24,6 +24,13 @@ namespace WebUser.Controllers
                 Lastname = "Doe"
             });
             
+            result.Add(new Userdata()
+            {
+                Id = "0002",
+                Name = "Jane",
+                Lastname = "Doe"
+            });
+            
             return result;
         }
     }
