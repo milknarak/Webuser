@@ -58,3 +58,24 @@
             </div>
         </div>
     </div>
+
+<script>
+    $.ajax("http://localhost:5151/api/userdata").done((data) => {
+        const rowTableTemplate = `
+        <tr>
+            <td>%Id%</td>
+            <td>%Name%</td>
+            <td>%Lastname%</td>
+        </tr>
+        `;
+        const rows = [];
+        for (const item of data) {
+            let doc$ = rowTableTemplate;
+            doc$ = doc$.replace('%Id%', item.id);
+            doc$ = doc$.replace('%Name%', item.name);
+            doc$ = doc$.replace('%Lastname%', item.lastname);
+            rows.push(doc$)
+        }
+        $('tbody').html(rows.join(''))
+    });
+</script>
