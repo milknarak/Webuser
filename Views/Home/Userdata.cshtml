@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Userdata";
+}
+<h1>@ViewData["Title"]</h1>
+
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+            <span class="fs-4">Simple is the best</span>
+        </a>
+
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="index.html" class="nav-link active" aria-current="page">Home</a></li>
+            <li class="nav-item"><a href="pageadd.html" class="nav-link">Add</a></li>
+            <li class="nav-item"><a href="pageedit.html" class="nav-link">Edit</a></li>
+        </ul>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">search</button>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-7">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">id</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Lastname</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--data here-->
+                            <tr id="Showuserdata">
+                                <td scope="row" id="ShowId"></td>
+                                <td scope="row" id="ShowName"></td>
+                                <td scope="row" id="ShowLastname"></td>
+                                <td scope="row"><button type="button" class="btn btn-danger" id="Deleteuserdata">Delete</button></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-success" href="pageadd.html" role="button">Add</a>
+                    <a class="btn btn-warning" href="pageedit.html" role="button">Edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
