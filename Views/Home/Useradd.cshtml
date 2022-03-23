@@ -2,18 +2,7 @@
     ViewData["Title"] = "Useradd";
 }
 
-<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-        <span class="fs-4">Simple header</span>
-    </a>
 
-    <ul class="nav nav-pills">
-        <li class="nav-item"><a class="nav-link active" aria-current="page" asp-controller="Home" asp-action="Userdata">Home</a></li>
-        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Useradd">Add</a></li>
-        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Useredit">Edit</a></li>
-    </ul>
-</header>
 
 <div class="container">
     <div class="mb-3">
@@ -38,7 +27,7 @@
 </div>
 
 <script>
-    $('#submitCreateUserdata').click(() => {
+    $('#submitAddUserdata').click(() => {
         const id = $('#userdataId').val()
         const name = $('#userdataName').val()
         const lastname = $('#userdataLastname').val()
@@ -65,7 +54,7 @@
                     let doc$ = rowTableTemplate;
                     doc$ = doc$.replace('%Id%', item.id);
                     doc$ = doc$.replace('%Name%', item.name);
-                    doc$ = doc$.replace('%Lastname%', item['lastname']);
+                    doc$ = doc$.replace('%Lastname%', item.lastname);
                     rows.push(doc$)
                 }
                 $('tbody').html(rows.join(''))

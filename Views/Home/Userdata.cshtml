@@ -2,18 +2,6 @@
     ViewData["Title"] = "Userdata";
 }
 
-    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-            <span class="fs-4">Simple is the best</span>
-        </a>
-
-        <ul class="nav nav-pills">
-            <li class="nav-item"><a class="nav-link active" aria-current="page" asp-controller="Home" asp-action="Userdata">Home</a></li>
-            <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Useradd">Add</a></li>
-            <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Useredit">Edit</a></li>
-        </ul>
-    </header>
 
     <div class="container">
         <div class="row">
@@ -30,21 +18,17 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">id</th>
+                                <th scope="col">Id</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Lastname</th>
-                                <th scope="col"></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <!--data here-->
-                            <tr id="Showuserdata">
-                                <td scope="row" id="ShowId"></td>
-                                <td scope="row" id="ShowName"></td>
-                                <td scope="row" id="ShowLastname"></td>
-                                <td scope="row"><button type="button" class="btn btn-danger" id="submitDeleteUserdata">Delete</button></td>
+                        <tbody>   
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>
@@ -53,44 +37,29 @@
                 <div class="col">
                     <a class="btn btn-success" role="button" asp-controller="Home" asp-action="Useradd">Add</a>
                     <a class="btn btn-warning" role="button" asp-controller="Home" asp-action="Useredit">Edit</a>
+                    <a class="btn btn-danger" role="button" asp-controller="Home" asp-action="Userdelete">Delete</a>
                 </div>
             </div>
         </div>
     </div>
 
 <script>
-    $('#submitDeleteUserdata').click(() => {
-        const id = $('#userdataId').val()
-        const name = $('#userdataName').val()
-        const lastname = $('#userdataLastname').val()
-
-        $.ajax({
-            url: 'http://localhost:5151/api/userdata',
-            type: 'Delete',
-            data: JSON.stringify({
-                id, name, lastname
-            }),
-            contentType: "application/json; charset=utf-8",
-        }).done((data) => {
-            alert(data)
-
-            $.ajax("http://localhost:5151/api/userdata").done((data) => {
-                const rowTableTemplate = `
-                <tr>
-                    <td>%Id%</td>
-                    <td>%Name%</td>
-                    <td>%Lastname%</td>
-                </tr>
-                `;
-               const rows = [];
-                for (const item of data) {
-                    let doc$ = rowTableTemplate;
-                    doc$ = doc$.replace('%Id%', item.id);
-                    doc$ = doc$.replace('%Name%', item.name);
-                    doc$ = doc$.replace('%Lastname%', item.lastname);
-                    rows.push(doc$)
-                }
-               $('tbody').html(rows.join(''))
+    $.ajax("http://localhost:5151/api/userdata").done((data) => {
+        const rowTableTemplate = `
+    <tr>
+        <td>%Id%</td>
+        <td>%Name%</td>
+        <td>%Lastname%</td>
+    </tr>`;
+        const rows = [];
+        for (const item of data) {
+            let doc$ = rowTableTemplate;
+            doc$ = doc$.replace('%Id%', item.id);
+            doc$ = doc$.replace('%Name%', item.name);
+            doc$ = doc$.replace('%Lastname%', item.lastname);
+            rows.push(doc$)
+        }
+        $('tbody').html(rows.join(''))
     });
     
 

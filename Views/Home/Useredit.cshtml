@@ -2,18 +2,6 @@
     ViewData["Title"] = "Useredit";
 }
 
-<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-        <span class="fs-4">Simple header</span>
-    </a>
-
-    <ul class="nav nav-pills">
-        <li class="nav-item"><a class="nav-link active" aria-current="page" asp-controller="Home" asp-action="Userdata">Home</a></li>
-        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Useradd">Add</a></li>
-        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Useredit">Edit</a></li>
-    </ul>
-</header>
 
 <div class="container">
     <div class="mb-3">
@@ -57,33 +45,29 @@
 
     <script>
         $('#submiteEditUserdata').click(() => {
-            const id = $('#userdataId').val()
-            const name = $('#userdataName').val()
-            const lastname = $('#userdataLastname').val()
+            const id = $('#userdataIdNew').val()
+            const name = $('#userdataNameNew').val()
+            const lastname = $('#userdataLastnameNew').val()
 
             $.ajax({
                 url: 'http://localhost:5151/api/userdata',
                 type: 'put',
-                data: JSON.stringify({
-                    id, name, lastname
-                }),
-                contentType: "application/json; charset=utf-8",
-            }).done((data) => {
-                alert(data)
+            }).done(alert(data))
+                
 
-                $.ajax("http://localhost:5151/api/userdata").done((data) => {
-                    const rowTableTemplate = `
-            <tr>
-                <td>%Id%</td>
-                <td>%Name%</td>
-                <td>%Lastname%</td>
-            </tr>`;
-                    const rows = [];
+            $.ajax("http://localhost:5151/api/userdata").done((data) => {
+                const rowTableTemplate = `
+                <tr>
+                    <td>%Id%</td>
+                    <td>%Name%</td>
+                    <td>%Lastname%</td>
+                </tr>`;
+                const rows = [];
                     for (const item of data) {
                         let doc$ = rowTableTemplate;
                         doc$ = doc$.replace('%Id%', item.id);
                         doc$ = doc$.replace('%Name%', item.name);
-                        doc$ = doc$.replace('%Lastname%', item['lastname']);
+                        doc$ = doc$.replace('%Lastname%', item.lastname);
                         rows.push(doc$)
                     }
                     $('tbody').html(rows.join(''))

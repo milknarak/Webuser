@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Userdelete";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">search</button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-7">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Lastname</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-light" role="button" asp-controller="Home" asp-action="Userdata">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#DeleteId').click(() => {
+        const id = $('#userdataId').val()
+        const name = $('#userdataName').val()
+        const lastname = $('#userdataLastname').val()
+
+        $.ajax({
+            url: `http://localhost:5151/api/userdata/${id}`,
+            type: 'delete',
+        }).done(alert(data))
+
+        $.ajax("http://localhost:5151/api/userdata").done((data) => {
+            const rowTableTemplate = `
+            <tr>
+                <td>%Id%</td>
+                <td>%Name%</td>
+                <td>%Lastname%</td>
+                <td><button type="button" class="btn btn-danger">Delete</button></td>
+            </tr>`;
+            const rows = [];
+            for (const item of data) {
+                let doc$ = rowTableTemplate;
+                doc$ = doc$.replace('%Id%', item.id);
+                doc$ = doc$.replace('%Name%', item.name);
+                doc$ = doc$.replace('%Lastname%', item.lastname);
+                rows.push(doc$)
+                }
+            $('tbody').html(rows.join(''))
+        });
+        })
+</script>,

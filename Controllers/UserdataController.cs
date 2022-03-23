@@ -40,10 +40,11 @@ namespace WebUser.Controllers
             db.Query<Userdata>(@"
                 DELETE FROM userdata
                 WHERE id = @id
-            "), id);
-            return "Delete userdata suscessful";
+            ", new { id = id });
+            return "Delete userdata successful";
         }
 
+        /*
         [HttpPut]
         public string EditUserdata(string id)
         {
@@ -55,5 +56,6 @@ namespace WebUser.Controllers
             "), id);
             return "Edit userdata suscessful";
         }
+        */
     }
 }

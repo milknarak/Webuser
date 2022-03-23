@@ -35,6 +35,10 @@ namespace WebUser.Controllers
         {
             return View();
         }
+         public IActionResult Userdelete()
+        {
+            return View();
+        }
         
         public IActionResult UserdataExample()
         {
