@@ -40,8 +40,8 @@ namespace WebUser.Controllers
             db.Query<Userdata>(@"
                 DELETE FROM userdata
                 WHERE id = @id
-            "), id);
-            return "Delete userdata suscessful";
+            ", new { id = id });
+            return "Delete userdata successful";
         }
 
         [HttpPut]
