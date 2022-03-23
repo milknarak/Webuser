@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Dapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 using WebUser.Models;
@@ -15,26 +10,22 @@ namespace WebUser.Controllers
     public class UserdataController : ControllerBase
     {
         [HttpGet]
-        public List<Userdata> Get()
+        public List<Userdata> GetAllUserdata()
         {
             using var db = new NpgsqlConnection("Host=localhost;Username=postgres;Password=password;Database=acme");
             var result = db.Query<Userdata>("SELECT * FROM userdata").ToList();
-            
-            // result.Add(new Userdata()
-            // {
-            //     Id = "0001",
-            //     Name = "John",
-            //     Lastname = "Doe"
-            // });
-            //
-            // result.Add(new Userdata()
-            // {
-            //     Id = "0002",
-            //     Name = "Jane",
-            //     Lastname = "Doe"
-            // });
-            
             return result;
+        }
+
+        [HttpPost]
+        public string CreateUserdata(Userdata data)
+        {
+            using var db = new NpgsqlConnection("Host=localhost;Username=postgres;Password=password;Database=acme");
+            db.Query<Userdata>(@"
+                INSERT INTO userdata (id, name, lastname)
+                VALUES (@id, @name, @lastname)
+            ", data);
+            return "Create userdata successful";
         }
     }
 }
