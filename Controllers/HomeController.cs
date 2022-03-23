@@ -27,6 +27,14 @@ namespace WebUser.Controllers
         {
             return View();
         }
+        public IActionResult Useradd()
+        {
+            return View();
+        }
+        public IActionResult Useredit()
+        {
+            return View();
+        }
         
         public IActionResult UserdataExample()
         {

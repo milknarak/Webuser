@@ -17,24 +17,14 @@ namespace WebUser.Controllers
         [HttpGet]
         public List<Userdata> Get()
         {
-            using var db = new NpgsqlConnection("Host=localhost;Username=postgres;Password=password;Database=acme");
+            using var db = new NpgsqlConnection(@"Host=172.16.0.49;Username=postgres;Password=p@ssw0rd;Database=milk_practice");
             var result = db.Query<Userdata>("SELECT * FROM userdata").ToList();
-            
-            // result.Add(new Userdata()
-            // {
-            //     Id = "0001",
-            //     Name = "John",
-            //     Lastname = "Doe"
-            // });
-            //
-            // result.Add(new Userdata()
-            // {
-            //     Id = "0002",
-            //     Name = "Jane",
-            //     Lastname = "Doe"
-            // });
-            
             return result;
+        }
+        [HttpPost]
+        public string Post()
+        {
+            return "POST";
         }
     }
 }

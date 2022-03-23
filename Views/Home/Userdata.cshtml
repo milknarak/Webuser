@@ -1,7 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Userdata";
 }
-<h1>@ViewData["Title"]</h1>
 
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
@@ -10,9 +9,9 @@
         </a>
 
         <ul class="nav nav-pills">
-            <li class="nav-item"><a href="index.html" class="nav-link active" aria-current="page">Home</a></li>
-            <li class="nav-item"><a href="pageadd.html" class="nav-link">Add</a></li>
-            <li class="nav-item"><a href="pageedit.html" class="nav-link">Edit</a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" asp-controller="Home" asp-action="Userdata">Home</a></li>
+            <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Useradd">Add</a></li>
+            <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Useredit">Edit</a></li>
         </ul>
     </header>
 
@@ -52,8 +51,8 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <a class="btn btn-success" href="pageadd.html" role="button">Add</a>
-                    <a class="btn btn-warning" href="pageedit.html" role="button">Edit</a>
+                    <a class="btn btn-success" role="button" asp-controller="Home" asp-action="Useradd">Add</a>
+                    <a class="btn btn-warning" role="button" asp-controller="Home" asp-action="Useredit">Edit</a>
                 </div>
             </div>
         </div>
