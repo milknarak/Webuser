@@ -14,6 +14,7 @@
                             <th scope="col">Id</th>
                             <th scope="col">Name</th>
                             <th scope="col">Lastname</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,6 +37,7 @@
 </div>
 
 <script>
+<<<<<<< HEAD
         $.ajax("http://localhost:5151/api/userdata").done((data) => {
         const rowTableTemplate = `
             <tr>
@@ -44,12 +46,58 @@
                 <td>%Lastname%</td>
                 <td><button type="button" class="btn btn-danger">Delete</button></td>
             </tr>`;
+=======
+    function requestDeleteUserdataById(userId) {
+        $.ajax({
+            url: `http://localhost:5151/api/userdata/${userId}`,
+            method: 'delete',
+        }).done((data) => {
+            alert(data)
+            
+            $.ajax("http://localhost:5151/api/userdata").done((data) => {
+                const rowTableTemplate = `
+                <tr>
+                    <td>%Id%</td>
+                    <td>%Name%</td>
+                    <td>%Lastname%</td>
+                    <td>
+                        <button type="button" 
+                                class="btn btn-danger" 
+                                onclick="requestDeleteUserdataById('%DeleteId%')">
+                            Delete
+                        </button>
+                    </td>
+                </tr>`;
+                const rows = [];
+                for (const item of data) {
+                    let doc$ = rowTableTemplate;
+                    doc$ = doc$.replace('%Id%', item.id);
+                    doc$ = doc$.replace('%Name%', item.name);
+                    doc$ = doc$.replace('%Lastname%', item.lastname);
+                    doc$ = doc$.replace('%DeleteId%', item.id)
+                    rows.push(doc$)
+                }
+                $('tbody').html(rows.join(''))
+            });
+        })
+    }
+
+    $.ajax("http://localhost:5151/api/userdata").done((data) => {
+        const rowTableTemplate = `
+        <tr>
+            <td>%Id%</td>
+            <td>%Name%</td>
+            <td>%Lastname%</td>
+            <td><button type="button" class="btn btn-danger" onclick="requestDeleteUserdataById('%DeleteId%')">Delete</button></td>
+        </tr>`;
+>>>>>>> 45515c2db26ff20408e0764a68b5d725cc94f5ff
         const rows = [];
         for (const item of data) {
             let doc$ = rowTableTemplate;
             doc$ = doc$.replace('%Id%', item.id);
             doc$ = doc$.replace('%Name%', item.name);
             doc$ = doc$.replace('%Lastname%', item.lastname);
+<<<<<<< HEAD
             rows.push(doc$)
         }
         $('tbody').html(rows.join(''))
@@ -63,3 +111,43 @@
 
         });
 </script>
+=======
+            doc$ = doc$.replace('%DeleteId%', item.id)
+            rows.push(doc$)
+        }
+        $('tbody').html(rows.join(''))
+    });
+
+    // $('#DeleteId').click(() => {
+    //     const id = $('#userdataId').val()
+    //     const name = $('#userdataName').val()
+    //     const lastname = $('#userdataLastname').val()
+    //
+    //     $.ajax({
+    //         url: `http://localhost:5151/api/userdata/${id}`,
+    //         type: 'delete',
+    //     }).done((data) => {
+    //         alert(data)
+    //     })
+    //
+    //     $.ajax("http://localhost:5151/api/userdata").done((data) => {
+    //         const rowTableTemplate = `
+    //         <tr>
+    //             <td>%Id%</td>
+    //             <td>%Name%</td>
+    //             <td>%Lastname%</td>
+    //             <td><button type="button" class="btn btn-danger">Delete</button></td>
+    //         </tr>`;
+    //         const rows = [];
+    //         for (const item of data) {
+    //             let doc$ = rowTableTemplate;
+    //             doc$ = doc$.replace('%Id%', item.id);
+    //             doc$ = doc$.replace('%Name%', item.name);
+    //             doc$ = doc$.replace('%Lastname%', item.lastname);
+    //             rows.push(doc$)
+    //         }
+    //         $('tbody').html(rows.join(''))
+    //     });
+    //     })
+</script>,
+>>>>>>> 45515c2db26ff20408e0764a68b5d725cc94f5ff
