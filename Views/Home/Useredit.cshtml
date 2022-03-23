@@ -4,38 +4,51 @@
 
 
 <div class="container">
-    <div class="mb-3">
-        <div class="row">
-            <div class="col" id="EditOld">
-                <label for="exampleFormControlInput1" class="form-label">Old id</label>
-                <input type="id" class="form-control" id="userdataId" placeholder="#####">
-            </div>
-            <div class="col">
-                <label for="exampleFormControlInput1" class="form-label">Old name</label>
-                <input type="name" class="form-control" id="userdataName" placeholder="Name">
-            </div>
-            <div class="col">
-                <label for="exampleFormControlInput1" class="form-label">Old lastname</label>
-                <input type="lastname" class="form-control" id="userdataLastname" placeholder="Lastname">
-            </div>
+    <div class="row">
+        <div class="col-7">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Lastname</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+    </div>
+    <div class="row">
+    </div>
+</div>
+</div>
+
+<div class="container">
         <div class="mb-3" style="margin-top: 10px;">
             <div class="row">
                 <div class="col" id="EditNew">
                     <label for="exampleFormControlInput1" class="form-label">New id</label>
-                    <input type="id" class="form-control" id="userdataIdNew" placeholder="#####">
+                    <input type="text" class="form-control" id="userdataIdNew" placeholder="#####" readonly>
                 </div>
                 <div class="col">
                     <label for="exampleFormControlInput1" class="form-label">New name</label>
-                    <input type="name" class="form-control" id="userdataNameNew" placeholder="Name">
+                    <input type="text" class="form-control" id="userdataNameNew" placeholder="Name">
                 </div>
                 <div class="col">
                     <label for="exampleFormControlInput1" class="form-label">New lastname</label>
-                    <input type="lastname" class="form-control" id="userdataLastnameNew" placeholder="Lastname">
+                    <input type="text" class="form-control" id="userdataLastnameNew" placeholder="Lastname">
                 </div>
             </div>
             <div style="margin-top: 20px;">
-                <button type="button" class="btn btn-warning" id="submiteEditUserdata">Edit</button>
+                <button type="button" class="btn btn-success" id="submiteEditUserdata">Save</button>
                 <a class="btn btn-light" role="button" asp-controller="Home" asp-action="Userdata">Back</a>
             </div>
 
@@ -44,34 +57,57 @@
     </div>
 
     <script>
+        fetchUserdata()
+
+        function bindUserEdit(id, name, lastname) {
+            $('#userdataIdNew').val(id)
+            $('#userdataNameNew').val(name)
+            $('#userdataLastnameNew').val(lastname)
+        }
+
         $('#submiteEditUserdata').click(() => {
             const id = $('#userdataIdNew').val()
             const name = $('#userdataNameNew').val()
             const lastname = $('#userdataLastnameNew').val()
-
+            var url = `http://localhost:5151/api/userdata/${id}`
             $.ajax({
-                url: 'http://localhost:5151/api/userdata',
-                type: 'put',
-            }).done(alert(data))
-                
-
-            $.ajax("http://localhost:5151/api/userdata").done((data) => {
-                const rowTableTemplate = `
-                <tr>
-                    <td>%Id%</td>
-                    <td>%Name%</td>
-                    <td>%Lastname%</td>
-                </tr>`;
-                const rows = [];
-                    for (const item of data) {
-                        let doc$ = rowTableTemplate;
-                        doc$ = doc$.replace('%Id%', item.id);
-                        doc$ = doc$.replace('%Name%', item.name);
-                        doc$ = doc$.replace('%Lastname%', item.lastname);
-                        rows.push(doc$)
-                    }
-                    $('tbody').html(rows.join(''))
-                });
+                url: url,
+                type: "PUT",
+                data: JSON.stringify({
+                    id, name, lastname
+                }),
+                contentType: "application/json; charset=utf-8",
+            }).done((data) => {
+                alert(data)
+                fetchUserdata()
             })
         })
+
+        
+        function fetchUserdata() {
+            $.ajax("http://localhost:5151/api/userdata").done((data) => {
+                const rowTableTemplate = `
+        <tr>
+            <td>%Id%</td>
+            <td>%Name%</td>
+            <td>%Lastname%</td>
+            <td><button type="button" class="btn btn-warning" onclick="bindUserEdit('%EditId%', '%EditName%', '%EditLastname%')">Edit</button></td>
+        </tr>`;
+
+
+                const rows = [];
+                for (const item of data) {
+                    let doc$ = rowTableTemplate;
+                    doc$ = doc$.replace('%Id%', item.id);
+                    doc$ = doc$.replace('%Name%', item.name);
+                    doc$ = doc$.replace('%Lastname%', item.lastname);
+                    doc$ = doc$.replace('%EditId%', item.id);
+                    doc$ = doc$.replace('%EditName%', item.name);
+                    doc$ = doc$.replace('%EditLastname%', item.lastname);
+
+                    rows.push(doc$)
+                }
+                $('tbody').html(rows.join(''))
+            });
+        }
     </script>

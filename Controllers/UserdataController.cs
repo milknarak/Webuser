@@ -44,18 +44,18 @@ namespace WebUser.Controllers
             return "Delete userdata successful";
         }
 
-        /*
-        [HttpPut]
-        public string EditUserdata(string id)
+        
+        [HttpPut("{id}")]
+        public string EditUserdata(string id, Userdata data)
         {
-            using var db = new NpgsqlConnection(@"Host=172.16.0.49;Username=postgres;Password=p@ssw0rd;Database=milk_practice");
+            using var db = new NpgsqlConnection(@"Host=localhost;Username=postgres;Password=password;Database=acme");
             db.Query<Userdata>(@"
-            UPDATE username
-            SET id = @id, name = @name, lastname = @lastname
-            WHERE id = @id
-            "), id);
+                UPDATE userdata
+                SET name = @name, lastname = @lastname
+                WHERE id = @id
+            ", data);
             return "Edit userdata suscessful";
         }
-        */
+        
     }
 }
