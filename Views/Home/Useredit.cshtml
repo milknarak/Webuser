@@ -20,34 +20,34 @@
         <div class="row">
             <div class="col" id="EditOld">
                 <label for="exampleFormControlInput1" class="form-label">Old id</label>
-                <input type="id" class="form-control" id="EditOldId" placeholder="#####">
+                <input type="id" class="form-control" id="userdataId" placeholder="#####">
             </div>
             <div class="col">
                 <label for="exampleFormControlInput1" class="form-label">Old name</label>
-                <input type="name" class="form-control" id="EditOldName" placeholder="Name">
+                <input type="name" class="form-control" id="userdataName" placeholder="Name">
             </div>
             <div class="col">
                 <label for="exampleFormControlInput1" class="form-label">Old lastname</label>
-                <input type="lastname" class="form-control" id="EditOldLastname" placeholder="Lastname">
+                <input type="lastname" class="form-control" id="userdataLastname" placeholder="Lastname">
             </div>
         </div>
         <div class="mb-3" style="margin-top: 10px;">
             <div class="row">
                 <div class="col" id="EditNew">
                     <label for="exampleFormControlInput1" class="form-label">New id</label>
-                    <input type="id" class="form-control" id="EditNewId" placeholder="#####">
+                    <input type="id" class="form-control" id="userdataIdNew" placeholder="#####">
                 </div>
                 <div class="col">
                     <label for="exampleFormControlInput1" class="form-label">New name</label>
-                    <input type="name" class="form-control" id="EditNewName" placeholder="Name">
+                    <input type="name" class="form-control" id="userdataNameNew" placeholder="Name">
                 </div>
                 <div class="col">
                     <label for="exampleFormControlInput1" class="form-label">New lastname</label>
-                    <input type="lastname" class="form-control" id="EditNewLastname" placeholder="Lastname">
+                    <input type="lastname" class="form-control" id="userdataLastnameNew" placeholder="Lastname">
                 </div>
             </div>
             <div style="margin-top: 20px;">
-                <button type="button" class="btn btn-warning">Edit</button>
+                <button type="button" class="btn btn-warning" id="submiteEditUserdata">Edit</button>
                 <a class="btn btn-light" role="button" asp-controller="Home" asp-action="Userdata">Back</a>
             </div>
 
@@ -56,5 +56,38 @@
     </div>
 
     <script>
-        
+        $('#submiteEditUserdata').click(() => {
+            const id = $('#userdataId').val()
+            const name = $('#userdataName').val()
+            const lastname = $('#userdataLastname').val()
+
+            $.ajax({
+                url: 'http://localhost:5151/api/userdata',
+                type: 'put',
+                data: JSON.stringify({
+                    id, name, lastname
+                }),
+                contentType: "application/json; charset=utf-8",
+            }).done((data) => {
+                alert(data)
+
+                $.ajax("http://localhost:5151/api/userdata").done((data) => {
+                    const rowTableTemplate = `
+            <tr>
+                <td>%Id%</td>
+                <td>%Name%</td>
+                <td>%Lastname%</td>
+            </tr>`;
+                    const rows = [];
+                    for (const item of data) {
+                        let doc$ = rowTableTemplate;
+                        doc$ = doc$.replace('%Id%', item.id);
+                        doc$ = doc$.replace('%Name%', item.name);
+                        doc$ = doc$.replace('%Lastname%', item['lastname']);
+                        rows.push(doc$)
+                    }
+                    $('tbody').html(rows.join(''))
+                });
+            })
+        })
     </script>
