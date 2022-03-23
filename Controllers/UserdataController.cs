@@ -17,7 +17,7 @@ namespace WebUser.Controllers
         [HttpGet]
         public List<Userdata> GetAllUserdata()
         {
-            using var db = new NpgsqlConnection(@"Host=172.16.0.49;Username=postgres;Password=p@ssw0rd;Database=milk_practice");
+            using var db = new NpgsqlConnection(@"Host=localhost;Username=postgres;Password=password;Database=acme");
             var result = db.Query<Userdata>("SELECT * FROM userdata").ToList();
             return result;
         }
@@ -25,7 +25,7 @@ namespace WebUser.Controllers
         [HttpPost]
         public string CreateUserdata(Userdata data)
         {
-            using var db = new NpgsqlConnection(@"Host=172.16.0.49;Username=postgres;Password=p@ssw0rd;Database=milk_practice");
+            using var db = new NpgsqlConnection(@"Host=localhost;Username=postgres;Password=password;Database=acme");
             db.Query<Userdata>(@"
                 INSERT INTO userdata (id, name, lastname)
                 VALUES (@id, @name, @lastname)
@@ -36,7 +36,7 @@ namespace WebUser.Controllers
         [HttpDelete("{id}")]
         public string DeleteUserdata(string id)
         {
-            using var db = new NpgsqlConnection(@"Host=172.16.0.49;Username=postgres;Password=p@ssw0rd;Database=milk_practice");
+            using var db = new NpgsqlConnection(@"Host=localhost;Username=postgres;Password=password;Database=acme");
             db.Query<Userdata>(@"
                 DELETE FROM userdata
                 WHERE id = @id
