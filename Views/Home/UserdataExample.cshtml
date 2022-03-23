@@ -1,24 +1,53 @@
 ﻿@{
     ViewData["Title"] = "Userdata Example";
 }
-<h1 class="pb-5">@ViewData["Title"]</h1>
-
-<table class="table table-bordered">
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Lastname</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-    </tr>
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-6">
+        <h1 class="pb-2">Userdata</h1>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Lastname</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-6">
+        <h1 class="pb-2">Create Userdata</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <td><input type="text" id="userdataId" class="form-control"></td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td><input type="text" id="userdataName" class="form-control"></td>
+            </tr>
+            <tr>
+                <th>Lastname</th>
+                <td><input type="text" id="userdataLastname" class="form-control"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button id="submitCreateUserdata" class="btn btn-success">
+                        Create
+                    </button>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
 
 <script>
 $.ajax("http://localhost:5151/api/userdata").done((data) => {
@@ -27,8 +56,7 @@ $.ajax("http://localhost:5151/api/userdata").done((data) => {
         <td>%Id%</td>
         <td>%Name%</td>
         <td>%Lastname%</td>
-    </tr>
-    `;
+    </tr>`;
     const rows = [];
     for (const item of data) {
         let doc$ = rowTableTemplate;
@@ -39,4 +67,39 @@ $.ajax("http://localhost:5151/api/userdata").done((data) => {
     }
     $('tbody').html(rows.join(''))
 });
+
+$('#submitCreateUserdata').click(() => {
+    const id = $('#userdataId').val()
+    const name = $('#userdataName').val()
+    const lastname = $('#userdataLastname').val()
+    
+    $.ajax({
+        url: 'http://localhost:5151/api/userdata',
+        type: 'post',
+        data: JSON.stringify({
+            id, name,  lastname
+        }),
+        contentType: "application/json; charset=utf-8",
+    }).done((data) => {
+        alert(data)
+        
+        $.ajax("http://localhost:5151/api/userdata").done((data) => {
+            const rowTableTemplate = `
+            <tr>
+                <td>%Id%</td>
+                <td>%Name%</td>
+                <td>%Lastname%</td>
+            </tr>`;
+            const rows = [];
+            for (const item of data) {
+                let doc$ = rowTableTemplate;
+                doc$ = doc$.replace('%Id%', item.id);
+                doc$ = doc$.replace('%Name%', item.name);
+                doc$ = doc$.replace('%Lastname%', item['lastname']);
+                rows.push(doc$)
+            }
+            $('tbody').html(rows.join(''))
+        });
+    })
+})
 </script>
