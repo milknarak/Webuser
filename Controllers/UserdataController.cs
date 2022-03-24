@@ -22,6 +22,22 @@ namespace WebUser.Controllers
             return result;
         }
 
+        [HttpGet("search")]
+        public List<Userdata> SearchUserdata(string q)
+        {
+ 
+            using var db = new NpgsqlConnection(@"Host=localhost;Username=postgres;Password=password;Database=acme");
+
+            string Q = @"SELECT * FROM userdata 
+                        WHERE id LIKE '%KEYWORD%' OR name LIKE '%KEYWORD%' OR lastname LIKE '%KEYWORD%'";
+            string replace = Q.Replace("KEYWORD", q);
+            var result = db.Query<Userdata>(replace).ToList();
+                
+            return result;
+
+
+        }
+
         [HttpPost]
         public string CreateUserdata(Userdata data)
         {

@@ -7,8 +7,8 @@
         <div class="row">
             <div class="col">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" aria-describedby="button-addon2">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">search</button>
+                    <input type="text" class="form-control" id="searchUser">
+                    <button class="btn btn-outline-secondary" type="button" id="SubmitsearchUser">search</button>
                 </div>
             </div>
         </div>
@@ -46,11 +46,12 @@
 <script>
     $.ajax("http://localhost:5151/api/userdata").done((data) => {
         const rowTableTemplate = `
-    <tr>
-        <td>%Id%</td>
-        <td>%Name%</td>
-        <td>%Lastname%</td>
-    </tr>`;
+        <tr>
+            <td>%Id%</td>
+            <td>%Name%</td>
+            <td>%Lastname%</td>
+        </tr>`;
+
         const rows = [];
         for (const item of data) {
             let doc$ = rowTableTemplate;
@@ -60,7 +61,34 @@
             rows.push(doc$)
         }
         $('tbody').html(rows.join(''))
-    });
-    
+    })
+
+    $('#SubmitsearchUser').click(() => {
+        const q = $('#searchUser').val()
+        var url = `http://localhost:5151/api/userdata/search?q=${q}`
+        $.ajax({
+            url: url,
+        }).done((data) => {
+            console.log(data)
+            const rowTableTemplate = `
+                <tr>
+                   <td>%Id%</td>
+                   <td>%Name%</td>
+                   <td>%Lastname%</td>
+                </tr>`;
+
+            const rows = [];
+            for (const item of data) {
+                let doc$ = rowTableTemplate;
+                doc$ = doc$.replace('%Id%', item.id);
+                doc$ = doc$.replace('%Name%', item.name);
+                doc$ = doc$.replace('%Lastname%', item.lastname);
+                rows.push(doc$)
+            }
+                $('tbody').html(rows.join(''))
+            })
+        })
+
+
 
 </script>
